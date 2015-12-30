@@ -29,6 +29,8 @@ public class RatingView: UIView {
     /// Image of unlit star, if nil "starryStars_off" is used
     @IBInspectable public var offImage: UIImage?
     
+    @IBInspectable public var offImageWidth: Int = 30
+    
     /// Image of fully lit star, if nil "starryStars_on" is used
     @IBInspectable public var onImage: UIImage?
     
@@ -116,19 +118,19 @@ public class RatingView: UIView {
     }
     
     func layoutStars() {
-        if stars.count != 0,
-            let offImage = stars.first?.image {
-                let halfWidth = offImage.size.width/2
-                let distance = (bounds.size.width - (offImage.size.width * CGFloat(starCount))) / CGFloat(starCount + 1) + halfWidth
+        if stars.count != 0{
+            //            let offImage = stars.first?.image {
+            let halfWidth = CGFloat(offImageWidth / 2)
+            let distance = (bounds.size.width - (CGFloat(offImageWidth) * CGFloat(starCount))) / CGFloat(starCount + 1) + halfWidth
+            
+            var i = 1
+            for iv in stars {
+                iv.frame = CGRectMake(0, 0, CGFloat(offImageWidth), CGFloat(offImageWidth))
                 
-                var i = 1
-                for iv in stars {
-                    iv.frame = CGRectMake(0, 0, offImage.size.width, offImage.size.height)
-                    
-                    iv.center = CGPointMake(CGFloat(i) * distance + halfWidth * CGFloat(i - 1),
-                        self.frame.size.height/2)
-                    i++
-                }
+                iv.center = CGPointMake(CGFloat(i) * distance + halfWidth * CGFloat(i - 1),
+                    self.frame.size.height/2)
+                i++
+            }
         }
     }
     
